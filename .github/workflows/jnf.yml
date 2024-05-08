@@ -1,0 +1,20 @@
+name: Build
+
+on:
+  push:
+    branches: [ "xcodejdk14-release" ]
+  pull_request:
+    branches: [ "xcodejdk14-release" ]
+
+jobs:
+  build:
+    name: Build
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Build
+        run: |
+          mkdir -p build/Frameworks
+          xcodebuild install -project apple/JavaNativeFoundation/JavaNativeFoundation.xcodeproj -target JavaNativeFoundation -configuration Release DSTROOT="$(pwd)/build/Frameworks" CODE_SIGN_IDENTITY="${CODE_SIGN_IDENTITY}"
